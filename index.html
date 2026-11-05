@@ -1137,6 +1137,8 @@ ol.lista li,ul.lista li{font-size:13.5px!important;line-height:1.5!important;mar
 </style>
 <style>
 .prompt-collapse > summary {display:flex;align-items:center;gap:9px;cursor:pointer;list-style:none;padding:12px 17px;background:#f7f9fc;color:#16274F;font-size:12.5px;font-weight:700}
+.prompt-card-header::before {display:none!important}
+.prompt-card-header {cursor:default!important}
 .prompt-collapse > summary::-webkit-details-marker {display:none}
 .prompt-collapse > summary:focus-visible {outline:2px solid #16274F;outline-offset:-3px}
 .prompt-toggle-icon {display:inline-block;transition:transform .2s ease}
@@ -1669,36 +1671,4 @@ Comprueba que cualquier decisión bloqueante quede identificada para la autor.
 })();
 </script>
 
-<script id="prompt-collapse-behavior">
-(function(){
-  function initPromptCards(){
-    document.querySelectorAll('.prompt-card').forEach(function(card){
-      var header=card.querySelector('.prompt-card-header');
-      var content=card.querySelector('.prompt-text');
-      if(!header || !content || card.dataset.collapseReady==='1') return;
-      card.dataset.collapseReady='1';
-      card.classList.add('is-collapsed');
-      header.setAttribute('role','button');
-      header.setAttribute('tabindex','0');
-      header.setAttribute('aria-expanded','false');
-      content.setAttribute('aria-hidden','true');
-      function toggle(){
-        var collapsed=card.classList.toggle('is-collapsed');
-        header.setAttribute('aria-expanded',String(!collapsed));
-        content.setAttribute('aria-hidden',String(collapsed));
-      }
-      header.addEventListener('click',function(e){
-        if(e.target.closest('button')) return;
-        toggle();
-      });
-      header.addEventListener('keydown',function(e){
-        if(e.target!==header) return;
-        if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}
-      });
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPromptCards);
-  else initPromptCards();
-})();
-</script>
 </body></html>
